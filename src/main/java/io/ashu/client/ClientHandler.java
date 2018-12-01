@@ -12,9 +12,9 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
 import java.util.Date;
 
-public class ClientConnectionHandler extends ChannelInboundHandlerAdapter {
+public class ClientHandler extends ChannelInboundHandlerAdapter {
   private String username;
-  public ClientConnectionHandler(String username) {
+  public ClientHandler(String username) {
     this.username = username;
   }
 
