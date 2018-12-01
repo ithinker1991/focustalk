@@ -1,4 +1,4 @@
-package io.ashu.server;
+package io.ashu.server.handler;
 
 import io.ashu.protocol.command.reponse.MessageResponsePacket;
 import io.ashu.protocol.command.requeset.MessageRequestPacket;

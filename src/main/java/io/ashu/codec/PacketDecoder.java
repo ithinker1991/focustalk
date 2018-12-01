@@ -1,4 +1,4 @@
-package io.ashu.server;
+package io.ashu.codec;
 
 import io.ashu.protocol.command.PacketCodec;
 import io.netty.buffer.ByteBuf;

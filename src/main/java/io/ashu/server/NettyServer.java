@@ -1,11 +1,17 @@
 package io.ashu.server;
 
+import io.ashu.codec.PacketDecoder;
+import io.ashu.codec.PacketEncoder;
+import io.ashu.codec.Spliter;
+import io.ashu.server.handler.LoginRequestHandler;
+import io.ashu.server.handler.MessageRequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 public class NettyServer {
   private static final int MAX_RETRY = 5;
@@ -27,6 +33,7 @@ public class NettyServer {
         .childHandler((new ChannelInitializer<NioSocketChannel>() {
           @Override
           protected void initChannel(NioSocketChannel ch) throws Exception {
+            ch.pipeline().addLast(new Spliter());
             ch.pipeline().addLast(new PacketDecoder());
             ch.pipeline().addLast(new LoginRequestHandler());
             ch.pipeline().addLast(new MessageRequestHandler());

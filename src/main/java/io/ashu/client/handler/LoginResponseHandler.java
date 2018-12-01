@@ -1,4 +1,4 @@
-package io.ashu.client;
+package io.ashu.client.handler;
 
 import io.ashu.protocol.command.PacketCodec;
 import io.ashu.protocol.command.reponse.LoginResponsePacket;

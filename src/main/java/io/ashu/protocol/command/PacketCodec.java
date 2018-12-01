@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PacketCodec {
-  private static final int MAGIC_NUMBER = 0xabcd1234;
+  public static final int MAGIC_NUMBER = 0xabcd1234;
   private static final Map<Byte, Class<? extends Packet>> packetTypeMap;
   private static final Map<Byte, Serializer> serializerMap;
 

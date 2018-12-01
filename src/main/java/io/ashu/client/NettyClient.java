@@ -1,8 +1,11 @@
 package io.ashu.client;
 
+import io.ashu.client.handler.LoginResponseHandler;
+import io.ashu.client.handler.MessageResponseHandler;
+import io.ashu.codec.Spliter;
 import io.ashu.protocol.command.requeset.MessageRequestPacket;
-import io.ashu.server.PacketDecoder;
-import io.ashu.server.PacketEncoder;
+import io.ashu.codec.PacketDecoder;
+import io.ashu.codec.PacketEncoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -11,6 +14,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -37,6 +41,7 @@ public class NettyClient {
         .handler(new ChannelInitializer<SocketChannel>() {
           @Override
           protected void initChannel(SocketChannel ch) throws Exception {
+            ch.pipeline().addLast(new Spliter());
             ch.pipeline().addLast(new PacketDecoder());
             ch.pipeline().addLast(new LoginResponseHandler(USERNAME));
             ch.pipeline().addLast(new MessageResponseHandler());
