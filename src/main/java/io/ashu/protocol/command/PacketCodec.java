@@ -1,6 +1,8 @@
 package io.ashu.protocol.command;
 
 
+import io.ashu.protocol.command.reponse.LoginResponsePacket;
+import io.ashu.protocol.command.requeset.LoginRequestPacket;
 import io.ashu.serialize.Serializer;
 import io.ashu.serialize.impl.JSONSerializer;
 import io.netty.buffer.ByteBuf;
@@ -13,9 +15,12 @@ public class PacketCodec {
   private static final Map<Byte, Class<? extends Packet>> packetTypeMap;
   private static final Map<Byte, Serializer> serializerMap;
 
+  public static final PacketCodec instance = new PacketCodec();
+
   static {
     packetTypeMap = new HashMap<>();
-    packetTypeMap.put(Command.LOING_REQUEST, LoginRequestPacket.class);
+    packetTypeMap.put(PacketType.LOING_REQUEST, LoginRequestPacket.class);
+    packetTypeMap.put(PacketType.LOING_REPONSE, LoginResponsePacket.class);
 
     serializerMap = new HashMap<>();
     Serializer serializer = new JSONSerializer();
