@@ -20,7 +20,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     System.out.println(new Date() + " :收到一条用户消息");
 
 
-    PacketCodec codec = PacketCodec.instance;
+    PacketCodec codec = PacketCodec.INSTANCE;
     Packet packet = codec.decode(byteBuf);
     if (packet instanceof LoginRequestPacket) {
       LoginRequestPacket requestPacket = (LoginRequestPacket) packet;
@@ -37,14 +37,16 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         responsePacket.setMsg("密码或者用户名错误");
         System.out.printf(new Date() + ": 用户[" + username + "]登陆失败");
       }
-      ByteBuf response = codec.encode(responsePacket);
+      ByteBuf byteBuf1 = ctx.channel().alloc().ioBuffer();
+      ByteBuf response = codec.encode(byteBuf1, responsePacket);
       ctx.channel().writeAndFlush(response);
     } else if (packet instanceof MessageRequestPacket) {
       MessageRequestPacket requestPacket = (MessageRequestPacket) packet;
       System.out.println(new Date() + " : 收到用户消息[" + requestPacket.getMessage() + "]");
       MessageResponsePacket responsePacket = new MessageResponsePacket();
       responsePacket.setMessage("服务端收到你的消息[" + requestPacket.getMessage() + "]");
-      ctx.channel().writeAndFlush(codec.encode(responsePacket));
+      ByteBuf byteBuf1 = ctx.channel().alloc().ioBuffer();
+      ctx.channel().writeAndFlush(codec.encode(byteBuf1, responsePacket));
     }
   }
 

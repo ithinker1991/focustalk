@@ -2,6 +2,7 @@ package io.ashu.client;
 
 import io.ashu.protocol.command.PacketCodec;
 import io.ashu.protocol.command.requeset.MessageRequestPacket;
+import io.ashu.server.PacketEncoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -37,7 +38,9 @@ public class NettyClient {
         .handler(new ChannelInitializer<SocketChannel>() {
           @Override
           protected void initChannel(SocketChannel ch) throws Exception {
-            ch.pipeline().addLast(new ClientHandler(USERNAME));
+            ch.pipeline().addLast(new PacketEncoder());
+            ch.pipeline().addLast(new LoginHandler(USERNAME));
+            ch.pipeline().addLast(new MessageResponseHandler());
           }
         });
     connect(bootstrap, HOST, PORT, MAX_RETRY);
@@ -68,8 +71,7 @@ public class NettyClient {
         System.out.println(new Date() + " 发送消息[" + line + "]");
         MessageRequestPacket packet = new MessageRequestPacket();
         packet.setMessage(line);
-        ByteBuf byteBuf = PacketCodec.instance.encode(packet);
-        channel.writeAndFlush(byteBuf);
+        channel.writeAndFlush(packet);
       }
     }).start();
   }

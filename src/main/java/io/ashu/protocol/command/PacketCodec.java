@@ -18,7 +18,7 @@ public class PacketCodec {
   private static final Map<Byte, Class<? extends Packet>> packetTypeMap;
   private static final Map<Byte, Serializer> serializerMap;
 
-  public static final PacketCodec instance = new PacketCodec();
+  public static final PacketCodec INSTANCE = new PacketCodec();
 
   static {
     packetTypeMap = new HashMap<>();
@@ -32,8 +32,7 @@ public class PacketCodec {
     serializerMap.put(serializer.getSerializerAlogrithm(), serializer);
   }
 
-  public ByteBuf encode(Packet packet) {
-    ByteBuf byteBuf = ByteBufAllocator.DEFAULT.ioBuffer();
+  public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
 
     byte[] bytes = Serializer.DEFAULT.serialize(packet);
 
