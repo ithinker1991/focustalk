@@ -38,8 +38,6 @@ public class ClientConnectionHandler extends ChannelInboundHandlerAdapter {
       // 消息穿透
       ctx.fireChannelRead(msg);
     }
-
-//    super.channelRead(ctx, msg);
   }
 
   @Override

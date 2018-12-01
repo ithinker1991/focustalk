@@ -34,7 +34,7 @@ public class ServerConectionHandler extends ChannelInboundHandlerAdapter {
         System.out.printf(new Date() + ": 用户[" + username + "]登陆失败");
       }
       ByteBuf response = codec.encode(responsePacket);
-      ctx.writeAndFlush(response);
+      ctx.channel().writeAndFlush(response);
     }
 
 
