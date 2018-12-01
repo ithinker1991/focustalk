@@ -10,9 +10,9 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
 import java.util.Date;
 
-public class LoginHandler extends SimpleChannelInboundHandler<LoginResponsePacket> {
+public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginResponsePacket> {
   private String username;
-  public LoginHandler(String username) {
+  public LoginResponseHandler(String username) {
     this.username = username;
   }
 

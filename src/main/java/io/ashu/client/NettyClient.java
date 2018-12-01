@@ -1,10 +1,9 @@
 package io.ashu.client;
 
-import io.ashu.protocol.command.PacketCodec;
 import io.ashu.protocol.command.requeset.MessageRequestPacket;
+import io.ashu.server.PacketDecoder;
 import io.ashu.server.PacketEncoder;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -38,9 +37,11 @@ public class NettyClient {
         .handler(new ChannelInitializer<SocketChannel>() {
           @Override
           protected void initChannel(SocketChannel ch) throws Exception {
-            ch.pipeline().addLast(new PacketEncoder());
-            ch.pipeline().addLast(new LoginHandler(USERNAME));
+            ch.pipeline().addLast(new PacketDecoder());
+            ch.pipeline().addLast(new LoginResponseHandler(USERNAME));
             ch.pipeline().addLast(new MessageResponseHandler());
+
+            ch.pipeline().addLast(new PacketEncoder());
           }
         });
     connect(bootstrap, HOST, PORT, MAX_RETRY);
@@ -65,10 +66,9 @@ public class NettyClient {
   private static void startConsoleThread(Channel channel) {
     new Thread(() -> {
       while (!Thread.interrupted()) {
-        System.out.print(new Date() + " 输入消息发送到服务端:");
+        System.out.println(new Date() + " 输入消息发送到服务端:");
         Scanner sc = new Scanner(System.in);
         String line = sc.nextLine();
-        System.out.println(new Date() + " 发送消息[" + line + "]");
         MessageRequestPacket packet = new MessageRequestPacket();
         packet.setMessage(line);
         channel.writeAndFlush(packet);
