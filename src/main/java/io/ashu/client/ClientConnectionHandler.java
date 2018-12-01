@@ -2,8 +2,10 @@ package io.ashu.client;
 
 import io.ashu.protocol.command.Packet;
 import io.ashu.protocol.command.reponse.LoginResponsePacket;
+import io.ashu.protocol.command.reponse.MessageResponsePacket;
 import io.ashu.protocol.command.requeset.LoginRequestPacket;
 import io.ashu.protocol.command.PacketCodec;
+import io.ashu.protocol.command.requeset.MessageRequestPacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -19,7 +21,7 @@ public class ClientConnectionHandler extends ChannelInboundHandlerAdapter {
   @Override
   public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
     ByteBuf byteBuf = (ByteBuf) msg;
-    System.out.println(new Date() + " :收到消息");
+    System.out.println(new Date() + " : 收到消息");
 
     PacketCodec codec = PacketCodec.instance;
 
@@ -28,10 +30,13 @@ public class ClientConnectionHandler extends ChannelInboundHandlerAdapter {
       if (packet instanceof LoginResponsePacket) {
         LoginResponsePacket responsePacket = (LoginResponsePacket) packet;
         if (responsePacket.isSuccess()) {
-          System.out.println(new Date() + " ：登陆成功" );
+          System.out.println(new Date() + " : 登陆成功" );
         } else {
           System.err.println(new Date() + " : 登陆失败，失败原因[" + responsePacket.getMsg() + "]");
         }
+      } else if (packet instanceof MessageResponsePacket) {
+        MessageResponsePacket responsePacket = (MessageResponsePacket) packet;
+        System.out.println(new Date() + " : 收到服务器消息[" + responsePacket.getMessage() + "]");
       }
 
     } else {

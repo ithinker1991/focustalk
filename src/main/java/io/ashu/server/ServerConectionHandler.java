@@ -1,9 +1,11 @@
 package io.ashu.server;
 
 import io.ashu.protocol.command.reponse.LoginResponsePacket;
+import io.ashu.protocol.command.reponse.MessageResponsePacket;
 import io.ashu.protocol.command.requeset.LoginRequestPacket;
 import io.ashu.protocol.command.Packet;
 import io.ashu.protocol.command.PacketCodec;
+import io.ashu.protocol.command.requeset.MessageRequestPacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -15,6 +17,8 @@ public class ServerConectionHandler extends ChannelInboundHandlerAdapter {
   @Override
   public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
     ByteBuf byteBuf = (ByteBuf) msg;
+    System.out.println(new Date() + " :收到一条用户消息");
+
 
     PacketCodec codec = PacketCodec.instance;
     Packet packet = codec.decode(byteBuf);
@@ -35,10 +39,13 @@ public class ServerConectionHandler extends ChannelInboundHandlerAdapter {
       }
       ByteBuf response = codec.encode(responsePacket);
       ctx.channel().writeAndFlush(response);
+    } else if (packet instanceof MessageRequestPacket) {
+      MessageRequestPacket requestPacket = (MessageRequestPacket) packet;
+      System.out.println(new Date() + " : 收到用户消息[" + requestPacket.getMessage() + "]");
+      MessageResponsePacket responsePacket = new MessageResponsePacket();
+      responsePacket.setMessage("服务端收到你的消息[" + requestPacket.getMessage() + "]");
+      ctx.channel().writeAndFlush(codec.encode(responsePacket));
     }
-
-
-
   }
 
   private static boolean vailate(String username, String password) {

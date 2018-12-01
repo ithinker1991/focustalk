@@ -5,13 +5,12 @@ import io.ashu.protocol.command.PacketType;
 import lombok.Data;
 
 @Data
-public class LoginResponsePacket extends Packet {
+public class MessageResponsePacket extends Packet {
 
-  boolean success;
-  String msg;
+  private String message;
 
   @Override
   public Byte getCommand() {
-    return PacketType.LOING_RESPONSE;
+    return PacketType.MESSAGE_RESPONSE;
   }
 }
