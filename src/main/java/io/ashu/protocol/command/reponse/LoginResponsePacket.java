@@ -6,6 +6,8 @@ import lombok.Data;
 
 @Data
 public class LoginResponsePacket extends Packet {
+  String userId;
+  String userName;
 
   boolean success;
   String msg;

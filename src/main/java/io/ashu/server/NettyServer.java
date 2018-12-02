@@ -3,6 +3,7 @@ package io.ashu.server;
 import io.ashu.codec.PacketDecoder;
 import io.ashu.codec.PacketEncoder;
 import io.ashu.codec.Spliter;
+import io.ashu.server.handler.AuthHandler;
 import io.ashu.server.handler.LoginRequestHandler;
 import io.ashu.server.handler.MessageRequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -36,6 +37,8 @@ public class NettyServer {
             ch.pipeline().addLast(new Spliter());
             ch.pipeline().addLast(new PacketDecoder());
             ch.pipeline().addLast(new LoginRequestHandler());
+            ch.pipeline().addLast(new AuthHandler());
+
             ch.pipeline().addLast(new MessageRequestHandler());
 
             ch.pipeline().addLast(new PacketEncoder());

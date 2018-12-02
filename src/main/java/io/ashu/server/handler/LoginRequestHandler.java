@@ -2,11 +2,12 @@ package io.ashu.server.handler;
 
 import io.ashu.protocol.command.reponse.LoginResponsePacket;
 import io.ashu.protocol.command.requeset.LoginRequestPacket;
-import io.ashu.util.LoginUtil;
-import io.netty.buffer.ByteBuf;
+import io.ashu.session.Session;
+import io.ashu.util.SessionUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import java.util.Date;
+import java.util.UUID;
 
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
 
@@ -14,16 +15,18 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
   protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket requestPacket) throws Exception {
     String username = requestPacket.getUsername();
     String password = requestPacket.getPassword();
-    System.out.printf(new Date() + ": 用户[" + username + "]尝试登陆");
+    System.out.println(new Date() + ": 用户[" + username + "]尝试登陆");
 
     LoginResponsePacket responsePacket = new LoginResponsePacket();
-    if (LoginUtil.hasLogin(ctx.channel())) {
+    responsePacket.setUserId(requestPacket.getUserId());
+    responsePacket.setUserName(username);
+    if (SessionUtil.hasLogin(ctx.channel())) {
       responsePacket.setSuccess(false);
       responsePacket.setMsg("已经登录成功，无需再次登录");
     } else {
       if (vailate(username, password)) {
         responsePacket.setSuccess(true);
-        LoginUtil.markAsLogin(ctx.channel());
+        SessionUtil.buildSession(ctx.channel(), new Session(requestPacket.getUserId(), username));
         System.out.printf(new Date() + ": 用户[" + username + "]登陆成功");
       } else {
         responsePacket.setSuccess(false);
@@ -42,5 +45,9 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
   public void channelActive(ChannelHandlerContext ctx) throws Exception {
     System.out.println("与一个客户端建立了连接");
     super.channelActive(ctx);
+  }
+
+  private String generateUserId() {
+    return UUID.randomUUID().toString().split("-")[0];
   }
 }
