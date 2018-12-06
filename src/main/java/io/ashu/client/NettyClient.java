@@ -1,8 +1,11 @@
 package io.ashu.client;
 
+import io.ashu.client.handler.GreateGroupResponseHandler;
 import io.ashu.client.handler.LoginResponseHandler;
 import io.ashu.client.handler.MessageResponseHandler;
 import io.ashu.codec.Spliter;
+import io.ashu.console.ConsoleCommandManager;
+import io.ashu.console.impl.LoginCommand;
 import io.ashu.protocol.command.requeset.LoginRequestPacket;
 import io.ashu.protocol.command.requeset.MessageRequestPacket;
 import io.ashu.codec.PacketDecoder;
@@ -47,6 +50,8 @@ public class NettyClient {
             ch.pipeline().addLast(new PacketDecoder());
             ch.pipeline().addLast(new LoginResponseHandler(USERNAME));
             ch.pipeline().addLast(new MessageResponseHandler());
+            ch.pipeline().addLast(new GreateGroupResponseHandler());
+
 
             ch.pipeline().addLast(new PacketEncoder());
           }
@@ -73,29 +78,17 @@ public class NettyClient {
   private static void startConsoleThread(Channel channel) {
     new Thread(() -> {
       while (!Thread.interrupted()) {
+        LoginCommand loginCommand = new LoginCommand();
+        ConsoleCommandManager manager = new ConsoleCommandManager();
         Scanner sc = new Scanner(System.in);
         if (!SessionUtil.hasLogin(channel)) {
-          System.out.println(new Date() + ": 尝试登陆");
-          // TODO 这里为什么要用ctx去获取一个分配器
-
-          LoginRequestPacket packet = new LoginRequestPacket();
-          System.out.println("请输入id");
-          packet.setUserId(sc.next());
-          System.out.println("请输入用户名");
-          packet.setUsername(sc.next());
-          System.out.println("请输入密码");
-          packet.setPassword(sc.next());
-          channel.writeAndFlush(packet);
+          loginCommand.exec(sc, channel);
           try {
             Thread.sleep(1000);
           } catch (InterruptedException ignored) {
           }
         } else {
-          System.out.println(new Date() + " 输入消息发送到服务端:");
-          MessageRequestPacket packet = new MessageRequestPacket();
-          packet.setToUserId(sc.next());
-          packet.setMessage(sc.next());
-          channel.writeAndFlush(packet);
+          manager.exec(sc, channel);
         }
       }
     }).start();
