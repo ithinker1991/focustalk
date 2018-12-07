@@ -2,10 +2,12 @@ package io.ashu.protocol.command;
 
 
 import io.ashu.protocol.command.reponse.CreateGroupResponsePacket;
+import io.ashu.protocol.command.reponse.GroupMessageResponsePacket;
 import io.ashu.protocol.command.reponse.ListGroupMembersResponsePacket;
 import io.ashu.protocol.command.reponse.LoginResponsePacket;
 import io.ashu.protocol.command.reponse.MessageResponsePacket;
 import io.ashu.protocol.command.requeset.CreateGroupRequestPacket;
+import io.ashu.protocol.command.requeset.GroupMessageRequestPacket;
 import io.ashu.protocol.command.requeset.ListGroupMembersRequestPacket;
 import io.ashu.protocol.command.requeset.LoginRequestPacket;
 import io.ashu.protocol.command.requeset.MessageRequestPacket;
@@ -33,6 +35,8 @@ public class PacketCodec {
     packetTypeMap.put(PacketType.CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
     packetTypeMap.put(PacketType.LIST_GROUP_MEMBERS_REQUEST, ListGroupMembersRequestPacket.class);
     packetTypeMap.put(PacketType.LIST_GROUP_MEMBERS_RESPONSE, ListGroupMembersResponsePacket.class);
+    packetTypeMap.put(PacketType.GROUP_MESSAGE_REQUEST, GroupMessageRequestPacket.class);
+    packetTypeMap.put(PacketType.GROUP_MESSAGE_RESPONSE, GroupMessageResponsePacket.class);
 
     serializerMap = new HashMap<>();
     Serializer serializer = new JSONSerializer();

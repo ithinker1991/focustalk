@@ -1,6 +1,7 @@
 package io.ashu.client;
 
 import io.ashu.client.handler.GreateGroupResponseHandler;
+import io.ashu.client.handler.GroupMessageResponseHandler;
 import io.ashu.client.handler.ListGroupMembersResponseHandler;
 import io.ashu.client.handler.LoginResponseHandler;
 import io.ashu.client.handler.MessageResponseHandler;
@@ -53,6 +54,7 @@ public class NettyClient {
             ch.pipeline().addLast(new MessageResponseHandler());
             ch.pipeline().addLast(new GreateGroupResponseHandler());
             ch.pipeline().addLast(new ListGroupMembersResponseHandler());
+            ch.pipeline().addLast(new GroupMessageResponseHandler());
 
 
             ch.pipeline().addLast(new PacketEncoder());
