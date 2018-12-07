@@ -27,7 +27,7 @@ public class SessionUtil {
     }
   }
 
-  public static List<String> getGroupMembersById(String id) {
+  public static ChannelGroup getGroupMembersById(String id) {
     return groupMap.get(id);
   }
 

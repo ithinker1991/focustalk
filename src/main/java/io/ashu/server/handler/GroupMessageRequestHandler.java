@@ -7,6 +7,8 @@ import io.ashu.util.SessionUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.group.ChannelGroup;
+
 import java.util.List;
 
 public class GroupMessageRequestHandler extends SimpleChannelInboundHandler<GroupMessageRequestPacket> {
@@ -19,13 +21,8 @@ public class GroupMessageRequestHandler extends SimpleChannelInboundHandler<Grou
 
     GroupMessageResponsePacket response = new GroupMessageResponsePacket();
     response.setMessage(message);
-    List<String> userIdList = SessionUtil.getGroupMembersById(groupId);
+    ChannelGroup group = SessionUtil.getGroupMembersById(groupId);
+    group.writeAndFlush(response);
 
-    userIdList.forEach(userId -> {
-      Channel channel = SessionUtil.getChannelByUserId(userId);
-      if (channel != null) {
-        channel.writeAndFlush(response);
-      }
-    });
   }
 }
