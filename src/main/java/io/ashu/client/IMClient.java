@@ -8,8 +8,6 @@ import io.ashu.client.handler.MessageResponseHandler;
 import io.ashu.codec.Spliter;
 import io.ashu.console.ConsoleCommandManager;
 import io.ashu.console.impl.LoginCommand;
-import io.ashu.protocol.command.requeset.LoginRequestPacket;
-import io.ashu.protocol.command.requeset.MessageRequestPacket;
 import io.ashu.codec.PacketDecoder;
 import io.ashu.codec.PacketEncoder;
 import io.ashu.util.SessionUtil;
@@ -21,11 +19,9 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import java.util.Date;
 import java.util.Scanner;
 
-public class NettyClient {
+public class IMClient {
   private static final int MAX_RETRY = 5;
   public static final String HOST = "127.0.0.1";
   public static final int PORT = 8000;

@@ -17,7 +17,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
-public class NettyServer {
+public class IMServer {
   private static final int MAX_RETRY = 5;
   public static final String HOST = "127.0.0.1";
   public static final int PORT = 8000;
