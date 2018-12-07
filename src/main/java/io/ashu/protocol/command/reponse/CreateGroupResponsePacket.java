@@ -8,6 +8,7 @@ import lombok.Data;
 public class CreateGroupResponsePacket extends Packet {
     boolean success;
     String reason;
+    private String id;
 
     @Override
     public Byte getCommand() {
