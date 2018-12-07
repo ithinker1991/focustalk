@@ -1,5 +1,6 @@
 package io.ashu.server;
 
+import io.ashu.codec.PacketCodecHandler;
 import io.ashu.codec.PacketDecoder;
 import io.ashu.codec.PacketEncoder;
 import io.ashu.codec.Spliter;
@@ -38,7 +39,7 @@ public class IMServer {
           @Override
           protected void initChannel(NioSocketChannel ch) throws Exception {
             ch.pipeline().addLast(new Spliter());
-            ch.pipeline().addLast(new PacketDecoder());
+            ch.pipeline().addLast(PacketCodecHandler.INSTANCE);
             ch.pipeline().addLast(new LoginRequestHandler());
             ch.pipeline().addLast(new AuthHandler());
 
@@ -47,7 +48,7 @@ public class IMServer {
             ch.pipeline().addLast(new ListGroupMembersRequestHandler());
             ch.pipeline().addLast(new GroupMessageRequestHandler());
 
-            ch.pipeline().addLast(new PacketEncoder());
+//            ch.pipeline().addLast(new PacketEncoder());
           }
         }));
 

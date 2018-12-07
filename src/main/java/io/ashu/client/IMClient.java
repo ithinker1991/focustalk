@@ -5,6 +5,7 @@ import io.ashu.client.handler.GroupMessageResponseHandler;
 import io.ashu.client.handler.ListGroupMembersResponseHandler;
 import io.ashu.client.handler.LoginResponseHandler;
 import io.ashu.client.handler.MessageResponseHandler;
+import io.ashu.codec.PacketCodecHandler;
 import io.ashu.codec.Spliter;
 import io.ashu.console.ConsoleCommandManager;
 import io.ashu.console.impl.LoginCommand;
@@ -45,15 +46,14 @@ public class IMClient {
           @Override
           protected void initChannel(SocketChannel ch) throws Exception {
             ch.pipeline().addLast(new Spliter());
-            ch.pipeline().addLast(new PacketDecoder());
+            ch.pipeline().addLast(PacketCodecHandler.INSTANCE);
             ch.pipeline().addLast(new LoginResponseHandler(USERNAME));
             ch.pipeline().addLast(new MessageResponseHandler());
             ch.pipeline().addLast(new GreateGroupResponseHandler());
             ch.pipeline().addLast(new ListGroupMembersResponseHandler());
             ch.pipeline().addLast(new GroupMessageResponseHandler());
 
-
-            ch.pipeline().addLast(new PacketEncoder());
+//            ch.pipeline().addLast(new PacketEncoder());
           }
         });
     connect(bootstrap, HOST, PORT, MAX_RETRY);
