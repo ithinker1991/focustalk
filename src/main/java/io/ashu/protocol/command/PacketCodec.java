@@ -39,7 +39,7 @@ public class PacketCodec {
     serializerMap.put(serializer.getSerializerAlogrithm(), serializer);
   }
 
-  public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
+  public void encode(ByteBuf byteBuf, Packet packet) {
 
     byte[] bytes = Serializer.DEFAULT.serialize(packet);
 
@@ -50,7 +50,6 @@ public class PacketCodec {
     byteBuf.writeInt(bytes.length);
     byteBuf.writeBytes(bytes);
 
-    return byteBuf;
   }
 
   public Packet decode(ByteBuf byteBuf) {
