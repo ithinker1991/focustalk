@@ -2,15 +2,18 @@ package io.ashu.protocol.command;
 
 
 import io.ashu.protocol.command.reponse.CreateGroupResponsePacket;
+import io.ashu.protocol.command.reponse.GroupMessageResponsePacket;
+import io.ashu.protocol.command.reponse.ListGroupMembersResponsePacket;
 import io.ashu.protocol.command.reponse.LoginResponsePacket;
 import io.ashu.protocol.command.reponse.MessageResponsePacket;
 import io.ashu.protocol.command.requeset.CreateGroupRequestPacket;
+import io.ashu.protocol.command.requeset.GroupMessageRequestPacket;
+import io.ashu.protocol.command.requeset.ListGroupMembersRequestPacket;
 import io.ashu.protocol.command.requeset.LoginRequestPacket;
 import io.ashu.protocol.command.requeset.MessageRequestPacket;
 import io.ashu.serialize.Serializer;
 import io.ashu.serialize.impl.JSONSerializer;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,13 +33,17 @@ public class PacketCodec {
     packetTypeMap.put(PacketType.MESSAGE_RESPONSE, MessageResponsePacket.class);
     packetTypeMap.put(PacketType.CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
     packetTypeMap.put(PacketType.CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
+    packetTypeMap.put(PacketType.LIST_GROUP_MEMBERS_REQUEST, ListGroupMembersRequestPacket.class);
+    packetTypeMap.put(PacketType.LIST_GROUP_MEMBERS_RESPONSE, ListGroupMembersResponsePacket.class);
+    packetTypeMap.put(PacketType.GROUP_MESSAGE_REQUEST, GroupMessageRequestPacket.class);
+    packetTypeMap.put(PacketType.GROUP_MESSAGE_RESPONSE, GroupMessageResponsePacket.class);
 
     serializerMap = new HashMap<>();
     Serializer serializer = new JSONSerializer();
     serializerMap.put(serializer.getSerializerAlogrithm(), serializer);
   }
 
-  public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
+  public void encode(ByteBuf byteBuf, Packet packet) {
 
     byte[] bytes = Serializer.DEFAULT.serialize(packet);
 
@@ -47,7 +54,6 @@ public class PacketCodec {
     byteBuf.writeInt(bytes.length);
     byteBuf.writeBytes(bytes);
 
-    return byteBuf;
   }
 
   public Packet decode(ByteBuf byteBuf) {

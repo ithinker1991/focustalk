@@ -1,10 +1,13 @@
 package io.ashu.server;
 
+import io.ashu.codec.PacketCodecHandler;
 import io.ashu.codec.PacketDecoder;
 import io.ashu.codec.PacketEncoder;
 import io.ashu.codec.Spliter;
 import io.ashu.server.handler.AuthHandler;
 import io.ashu.server.handler.CreateGroupRequestHandler;
+import io.ashu.server.handler.GroupMessageRequestHandler;
+import io.ashu.server.handler.ListGroupMembersRequestHandler;
 import io.ashu.server.handler.LoginRequestHandler;
 import io.ashu.server.handler.MessageRequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -15,7 +18,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
-public class NettyServer {
+public class IMServer {
   private static final int MAX_RETRY = 5;
   public static final String HOST = "127.0.0.1";
   public static final int PORT = 8000;
@@ -36,14 +39,16 @@ public class NettyServer {
           @Override
           protected void initChannel(NioSocketChannel ch) throws Exception {
             ch.pipeline().addLast(new Spliter());
-            ch.pipeline().addLast(new PacketDecoder());
+            ch.pipeline().addLast(PacketCodecHandler.INSTANCE);
             ch.pipeline().addLast(new LoginRequestHandler());
             ch.pipeline().addLast(new AuthHandler());
 
             ch.pipeline().addLast(new MessageRequestHandler());
             ch.pipeline().addLast(new CreateGroupRequestHandler());
+            ch.pipeline().addLast(new ListGroupMembersRequestHandler());
+            ch.pipeline().addLast(new GroupMessageRequestHandler());
 
-            ch.pipeline().addLast(new PacketEncoder());
+//            ch.pipeline().addLast(new PacketEncoder());
           }
         }));
 
