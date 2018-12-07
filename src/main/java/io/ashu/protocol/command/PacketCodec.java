@@ -2,15 +2,16 @@ package io.ashu.protocol.command;
 
 
 import io.ashu.protocol.command.reponse.CreateGroupResponsePacket;
+import io.ashu.protocol.command.reponse.ListGroupMembersResponsePacket;
 import io.ashu.protocol.command.reponse.LoginResponsePacket;
 import io.ashu.protocol.command.reponse.MessageResponsePacket;
 import io.ashu.protocol.command.requeset.CreateGroupRequestPacket;
+import io.ashu.protocol.command.requeset.ListGroupMembersRequestPacket;
 import io.ashu.protocol.command.requeset.LoginRequestPacket;
 import io.ashu.protocol.command.requeset.MessageRequestPacket;
 import io.ashu.serialize.Serializer;
 import io.ashu.serialize.impl.JSONSerializer;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +31,8 @@ public class PacketCodec {
     packetTypeMap.put(PacketType.MESSAGE_RESPONSE, MessageResponsePacket.class);
     packetTypeMap.put(PacketType.CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
     packetTypeMap.put(PacketType.CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
+    packetTypeMap.put(PacketType.LIST_GROUP_MEMBERS_REQUEST, ListGroupMembersRequestPacket.class);
+    packetTypeMap.put(PacketType.LIST_GROUP_MEMBERS_RESPONSE, ListGroupMembersResponsePacket.class);
 
     serializerMap = new HashMap<>();
     Serializer serializer = new JSONSerializer();

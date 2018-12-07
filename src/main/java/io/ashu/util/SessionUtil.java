@@ -28,6 +28,10 @@ public class SessionUtil {
     }
   }
 
+  public static List<String> getGroupMembersById(String id) {
+    return groupMap.get(id);
+  }
+
   public static boolean hasLogin(Channel channel) {
     return channel.attr(Attributes.SESSION).get() != null;
   }

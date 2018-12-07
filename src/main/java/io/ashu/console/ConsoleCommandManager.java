@@ -1,6 +1,7 @@
 package io.ashu.console;
 
 import io.ashu.console.impl.CreateGroupCommand;
+import io.ashu.console.impl.ListGroupMembersCommand;
 import io.ashu.console.impl.SendToCommand;
 import io.netty.channel.Channel;
 
@@ -17,6 +18,7 @@ public class ConsoleCommandManager implements ConsoleCommand {
         commandMap = new HashMap<>();
         commandMap.put("createGroup", new CreateGroupCommand());
         commandMap.put("sendTo", new SendToCommand());
+        commandMap.put("ListMembers", new ListGroupMembersCommand());
     }
 
 
