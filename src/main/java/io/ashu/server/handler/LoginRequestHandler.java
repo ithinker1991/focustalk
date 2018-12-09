@@ -39,7 +39,7 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
         System.out.printf(new Date() + ": 用户[" + username + "]登陆失败");
       }
     }
-    ctx.channel().writeAndFlush(responsePacket);
+    ctx.writeAndFlush(responsePacket);
   }
 
   private static boolean vailate(String username, String password) {

@@ -32,6 +32,6 @@ public class ListGroupMembersRequestHandler extends
       userIdList.add(session.getUserId());
     }
     response.setUserIdList(userIdList);
-    ctx.channel().writeAndFlush(response);
+    ctx.writeAndFlush(response);
   }
 }

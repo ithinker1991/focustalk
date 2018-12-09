@@ -24,7 +24,7 @@ public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRe
       MessageResponsePacket responsePacket = new MessageResponsePacket();
       responsePacket.setFromUserName("服务器");
       responsePacket.setMessage(requestPacket.getMessage());
-      ctx.channel().writeAndFlush(responsePacket);
+      ctx.writeAndFlush(responsePacket);
     } else {
       MessageResponsePacket responsePacket = new MessageResponsePacket();
       responsePacket.setFromUserId(session.getUserId());
