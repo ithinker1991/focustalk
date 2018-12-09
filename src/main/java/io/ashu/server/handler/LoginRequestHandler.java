@@ -4,15 +4,20 @@ import io.ashu.protocol.command.reponse.LoginResponsePacket;
 import io.ashu.protocol.command.requeset.LoginRequestPacket;
 import io.ashu.session.Session;
 import io.ashu.util.SessionUtil;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import java.util.Date;
 import java.util.UUID;
 
+@ChannelHandler.Sharable
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
 
+  public static final LoginRequestHandler INSTANCE = new LoginRequestHandler();
+
   @Override
-  protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket requestPacket) throws Exception {
+  protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket requestPacket)
+      throws Exception {
     String username = requestPacket.getUsername();
     String password = requestPacket.getPassword();
     System.out.println(new Date() + ": 用户[" + username + "]尝试登陆");

@@ -1,7 +1,6 @@
 package io.ashu.client.handler;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
 import io.ashu.protocol.command.reponse.ListGroupMembersResponsePacket;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

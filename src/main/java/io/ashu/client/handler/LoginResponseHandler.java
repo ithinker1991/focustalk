@@ -1,7 +1,6 @@
 package io.ashu.client.handler;
 
 import io.ashu.protocol.command.reponse.LoginResponsePacket;
-import io.ashu.protocol.command.requeset.LoginRequestPacket;
 import io.ashu.session.Session;
 import io.ashu.util.SessionUtil;
 import io.netty.buffer.ByteBuf;
@@ -11,7 +10,9 @@ import io.netty.util.CharsetUtil;
 import java.util.Date;
 
 public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginResponsePacket> {
+
   private String username;
+
   public LoginResponseHandler(String username) {
     this.username = username;
   }
@@ -43,12 +44,12 @@ public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginRespo
 
   @Override
   protected void channelRead0(ChannelHandlerContext ctx, LoginResponsePacket msg) throws Exception {
-      if (msg.isSuccess()) {
-        SessionUtil.buildSession(ctx.channel(), new Session(msg.getUserId(), msg.getUserName()));
-        System.out.println(new Date() + " : 登陆成功" );
-      } else {
-        System.err.println(new Date() + " : 登陆失败，失败原因[" + msg.getMsg() + "]");
-      }
+    if (msg.isSuccess()) {
+      SessionUtil.buildSession(ctx.channel(), new Session(msg.getUserId(), msg.getUserName()));
+      System.out.println(new Date() + " : 登陆成功");
+    } else {
+      System.err.println(new Date() + " : 登陆失败，失败原因[" + msg.getMsg() + "]");
+    }
   }
 
 }

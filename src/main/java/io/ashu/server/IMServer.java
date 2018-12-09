@@ -1,12 +1,11 @@
 package io.ashu.server;
 
 import io.ashu.codec.PacketCodecHandler;
-import io.ashu.codec.PacketDecoder;
-import io.ashu.codec.PacketEncoder;
 import io.ashu.codec.Spliter;
 import io.ashu.server.handler.AuthHandler;
 import io.ashu.server.handler.CreateGroupRequestHandler;
 import io.ashu.server.handler.GroupMessageRequestHandler;
+import io.ashu.server.handler.IMHandler;
 import io.ashu.server.handler.ListGroupMembersRequestHandler;
 import io.ashu.server.handler.LoginRequestHandler;
 import io.ashu.server.handler.MessageRequestHandler;
@@ -16,7 +15,6 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 public class IMServer {
   private static final int MAX_RETRY = 5;
@@ -40,15 +38,9 @@ public class IMServer {
           protected void initChannel(NioSocketChannel ch) throws Exception {
             ch.pipeline().addLast(new Spliter());
             ch.pipeline().addLast(PacketCodecHandler.INSTANCE);
-            ch.pipeline().addLast(new LoginRequestHandler());
-            ch.pipeline().addLast(new AuthHandler());
-
-            ch.pipeline().addLast(new MessageRequestHandler());
-            ch.pipeline().addLast(new CreateGroupRequestHandler());
-            ch.pipeline().addLast(new ListGroupMembersRequestHandler());
-            ch.pipeline().addLast(new GroupMessageRequestHandler());
-
-//            ch.pipeline().addLast(new PacketEncoder());
+            ch.pipeline().addLast(LoginRequestHandler.INSTANCE);
+            ch.pipeline().addLast(AuthHandler.INSTANCE);
+            ch.pipeline().addLast(IMHandler.INSTANCE);
           }
         }));
 

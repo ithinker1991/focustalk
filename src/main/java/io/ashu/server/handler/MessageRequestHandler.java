@@ -4,12 +4,12 @@ import io.ashu.protocol.command.reponse.MessageResponsePacket;
 import io.ashu.protocol.command.requeset.MessageRequestPacket;
 import io.ashu.session.Session;
 import io.ashu.util.SessionUtil;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import java.util.Date;
 
+@Sharable
 public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRequestPacket> {
 
   @Override
