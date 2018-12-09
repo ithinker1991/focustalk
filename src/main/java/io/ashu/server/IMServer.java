@@ -6,6 +6,7 @@ import io.ashu.server.handler.AuthHandler;
 import io.ashu.server.handler.CreateGroupRequestHandler;
 import io.ashu.server.handler.GroupMessageRequestHandler;
 import io.ashu.server.handler.IMHandler;
+import io.ashu.server.handler.IMIdleStateHandler;
 import io.ashu.server.handler.ListGroupMembersRequestHandler;
 import io.ashu.server.handler.LoginRequestHandler;
 import io.ashu.server.handler.MessageRequestHandler;
@@ -15,6 +16,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
 
 public class IMServer {
   private static final int MAX_RETRY = 5;
@@ -36,6 +38,7 @@ public class IMServer {
         .childHandler((new ChannelInitializer<NioSocketChannel>() {
           @Override
           protected void initChannel(NioSocketChannel ch) throws Exception {
+            ch.pipeline().addLast(new IMIdleStateHandler());
             ch.pipeline().addLast(new Spliter());
             ch.pipeline().addLast(PacketCodecHandler.INSTANCE);
             ch.pipeline().addLast(LoginRequestHandler.INSTANCE);
