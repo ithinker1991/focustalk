@@ -13,17 +13,17 @@ public class IMIdleStateHandler extends IdleStateHandler {
   private static final int READ_IDLE_TIME = 15;
 
   public IMIdleStateHandler() {
-    super(READ_IDLE_TIME, 0, 0, TimeUnit.SECONDS);
+    super(READ_IDLE_TIME, -1, -1, TimeUnit.SECONDS);
   }
 
   @Override
   protected void channelIdle(ChannelHandlerContext ctx, IdleStateEvent evt) throws Exception {
     Session session = ctx.channel().attr(Attributes.SESSION).get();
     if (session!=null) {
-      System.err.println(
+      System.out.println(
           new Date() + " 该连接[" + session.getUserId() + "]超时");
     } else {
-      System.err.println(
+      System.out.println(
           new Date() + " 该连接[非登录用户]超时");
     }
     ctx.channel().close();

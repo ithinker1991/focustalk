@@ -1,13 +1,16 @@
 package io.ashu.protocol.command;
 
 
+import com.sun.xml.internal.ws.server.sei.MessageFiller.Header;
 import io.ashu.protocol.command.reponse.CreateGroupResponsePacket;
 import io.ashu.protocol.command.reponse.GroupMessageResponsePacket;
+import io.ashu.protocol.command.reponse.HeartBeatResponsePacket;
 import io.ashu.protocol.command.reponse.ListGroupMembersResponsePacket;
 import io.ashu.protocol.command.reponse.LoginResponsePacket;
 import io.ashu.protocol.command.reponse.MessageResponsePacket;
 import io.ashu.protocol.command.requeset.CreateGroupRequestPacket;
 import io.ashu.protocol.command.requeset.GroupMessageRequestPacket;
+import io.ashu.protocol.command.requeset.HeartBeatRequestPacket;
 import io.ashu.protocol.command.requeset.ListGroupMembersRequestPacket;
 import io.ashu.protocol.command.requeset.LoginRequestPacket;
 import io.ashu.protocol.command.requeset.MessageRequestPacket;
@@ -37,6 +40,9 @@ public class PacketCodec {
     packetTypeMap.put(PacketType.LIST_GROUP_MEMBERS_RESPONSE, ListGroupMembersResponsePacket.class);
     packetTypeMap.put(PacketType.GROUP_MESSAGE_REQUEST, GroupMessageRequestPacket.class);
     packetTypeMap.put(PacketType.GROUP_MESSAGE_RESPONSE, GroupMessageResponsePacket.class);
+    packetTypeMap.put(PacketType.HEART_BEAT_REQUEST, HeartBeatRequestPacket.class);
+    packetTypeMap.put(PacketType.HEART_BEAT_RESPONSE, HeartBeatResponsePacket.class);
+
 
     serializerMap = new HashMap<>();
     Serializer serializer = new JSONSerializer();

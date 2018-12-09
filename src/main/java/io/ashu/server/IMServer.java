@@ -5,6 +5,7 @@ import io.ashu.codec.Spliter;
 import io.ashu.server.handler.AuthHandler;
 import io.ashu.server.handler.CreateGroupRequestHandler;
 import io.ashu.server.handler.GroupMessageRequestHandler;
+import io.ashu.server.handler.HeartBeatRequestHandler;
 import io.ashu.server.handler.IMHandler;
 import io.ashu.server.handler.IMIdleStateHandler;
 import io.ashu.server.handler.ListGroupMembersRequestHandler;
@@ -40,8 +41,10 @@ public class IMServer {
           protected void initChannel(NioSocketChannel ch) throws Exception {
             ch.pipeline().addLast(new IMIdleStateHandler());
             ch.pipeline().addLast(new Spliter());
+
             ch.pipeline().addLast(PacketCodecHandler.INSTANCE);
             ch.pipeline().addLast(LoginRequestHandler.INSTANCE);
+            ch.pipeline().addLast(new HeartBeatRequestHandler());
             ch.pipeline().addLast(AuthHandler.INSTANCE);
             ch.pipeline().addLast(IMHandler.INSTANCE);
           }

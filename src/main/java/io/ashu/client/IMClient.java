@@ -2,6 +2,7 @@ package io.ashu.client;
 
 import io.ashu.client.handler.GreateGroupResponseHandler;
 import io.ashu.client.handler.GroupMessageResponseHandler;
+import io.ashu.client.handler.HeartBeatTimerHandler;
 import io.ashu.client.handler.ListGroupMembersResponseHandler;
 import io.ashu.client.handler.LoginResponseHandler;
 import io.ashu.client.handler.MessageResponseHandler;
@@ -45,13 +46,14 @@ public class IMClient {
           protected void initChannel(SocketChannel ch) throws Exception {
             ch.pipeline().addLast(new Spliter());
             ch.pipeline().addLast(PacketCodecHandler.INSTANCE);
+
             ch.pipeline().addLast(new LoginResponseHandler(USERNAME));
             ch.pipeline().addLast(new MessageResponseHandler());
             ch.pipeline().addLast(new GreateGroupResponseHandler());
             ch.pipeline().addLast(new ListGroupMembersResponseHandler());
             ch.pipeline().addLast(new GroupMessageResponseHandler());
 
-//            ch.pipeline().addLast(new PacketEncoder());
+            ch.pipeline().addLast(new HeartBeatTimerHandler());
           }
         });
     connect(bootstrap, HOST, PORT, MAX_RETRY);

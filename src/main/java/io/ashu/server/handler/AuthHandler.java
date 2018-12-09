@@ -23,7 +23,7 @@ public class AuthHandler extends ChannelInboundHandlerAdapter {
   @Override
   public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
     if (SessionUtil.hasLogin(ctx.channel())) {
-      System.out.println("当前登录验证已经完成，无需重复登录， AuthHandler 被移除");
+      System.out.println("当前登录验证已经完成，无需重复登录，AuthHandler 被移除");
     } else {
       System.out.println("无需登录?");
     }
